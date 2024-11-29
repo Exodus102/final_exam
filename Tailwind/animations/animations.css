@@ -1,0 +1,12 @@
+.fade-in {
+    opacity: 0; /* Start fully transparent */
+    transform: translateY(20px); /* Start slightly lower */
+    animation: fadeInUp 1s forwards; /* Call the animation */
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1; /* End fully visible */
+        transform: translateY(0); /* End at the original position */
+    }
+}

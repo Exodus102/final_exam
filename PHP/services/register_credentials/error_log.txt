@@ -1,0 +1,1 @@
+Table 'db_lms.tbl_professor' doesn't existTable 'db_lms.tbl_professor' doesn't existTable 'db_lms.tbl_professor' doesn't existTable 'db_lms.tbl_professor' doesn't existTable 'db_lms.tbl_professor' doesn't exist

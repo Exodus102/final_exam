@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/output.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Learning MS</title>
+</head>
+
+<body class="font-poppins p-5">
+    <div class="flex h-screen">
+
+        <div class="flex flex-col w-1/6 border-[3px] border-[#E9E3FF] rounded-xl mb-10 shadow-xl
+            pl-5 pr-5">
+            <div class="flex mb-10 mt-10">
+                <h1 class="font-bold">
+                    LMS
+                </h1>
+            </div>
+
+            <div class="flex flex-col text-[#424040]">
+                <a href="#" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]">
+                    <img src="icons/classes.svg" alt="classes" class="w-5 h-5">
+                    <span class="text-left">Courses</span>
+                </a>
+                <a href="#" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]">
+                    <img src="icons/notifications.svg" alt="notifications" class="w-5 h-5">
+                    <span class="text-left">Notifications</span>
+                </a>
+                <a href="#" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]">
+                    <img src="icons\archived.svg" alt="archived classes" class="w-5 h-5">
+                    <span class="text-left">Archived Classes</span>
+                </a>
+                <a href="#" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]">
+                    <img src="icons/reports.svg" alt="reports and certificates" class="w-5 h-5">
+                    <span class="text-left">Reports and Certificate</span>
+                </a>
+            </div>
+
+            <div class="mt-auto mb-5 ">
+                <a href="" class="flex items-center m-2 space-x-5">
+                    <img src="icons/settings.svg" alt="audit trail" class="w-5 h-5">
+                    <span class="text-left">Settings</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="m-5 w-3/5">
+            <div class="flex flex-col">
+                <h1 class="font-bold text-4xl text-[#424040]">
+                    COURSES
+                </h1>
+                <div class="flex mb-10 justify-between">
+                    <h1 class="font-[500] text-2xl text-[#424040] items-center">
+                        Welcome!
+                    </h1>
+                    <div class="flex bg-[#FFFF] rounded-md justify-evenly border-2">
+                        <button class="flex p-2 items-center" id="add-class">
+                            <img src="img/add.png" alt="" class="w-7 h-7">
+                            <h1 class="text-xs">
+                                Add New Course
+                            </h1>
+                        </button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 ml-7" id="module-container">
+
+                </div>
+                <div class="" id="no-module">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 w-1/4">
+            <h1 class="font-bold">
+                Profile
+            </h1>
+            <div class="w-full h-1/2 bg-[#EFEFEF] flex flex-col items-center shadow-xl rounded-xl">
+                <button class="bg-white rounded-xl w-8 h-8 flex justify-center items-center mb-5 shadow-xl mt-4 ml-auto mr-5">
+                    <img src="icons/edit.svg" alt="" srcset="" class="w-4 h-4">
+                </button>
+                <img src="img/nijika.jpg" alt="" class="w-16 h-16 mb-4 rounded-full">
+                <span>
+                    Reanne C. Mendoza
+                </span>
+                <span class="text-sm">
+                    Student
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_container" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 invisible">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+            <form action="frontEnd.php" method="POST" id="joinForm">
+                <p class="text-xl font-bold text-center mb-4">Join Class</p>
+                <div class="mb-4 border-b pb-4">
+                    <p class="text-sm font-medium text-gray-700 mb-2">Enter Class Code</p>
+                    <input
+                        type="text"
+                        placeholder="Class Code"
+                        id="join_field"
+                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                    <span
+                        id="error_message"
+                        class="text-red-500 text-sm mt-2 hidden"></span>
+                </div>
+                <div class="flex justify-end gap-4">
+                    <button
+                        type="button"
+                        id="cancel"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 border rounded-lg hover:bg-gray-100 transition">
+                        Cancel
+                    </button>
+                    <input
+                        type="submit"
+                        value="Join"
+                        id="join"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition cursor-pointer" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+
+    <script>
+        const addClassButton = document.getElementById("add-class"); // Add class button
+        const modalContainer = document.getElementById("modal_container"); // Modal container
+        const cancelButton = document.getElementById("cancel"); // Cancel button in the modal
+        const joinField = document.getElementById("join_field"); // Input field for class code
+        const errorMessage = document.getElementById("error_message"); // Error message element
+        const joinForm = document.getElementById("joinForm"); // The form itself
+
+        // Array to track added class codes
+        const addedClassCodes = [];
+
+        // Open modal logic
+        addClassButton.addEventListener("click", () => {
+            modalContainer.classList.remove("invisible"); // Make modal visible
+            joinField.value = ""; // Clear the input field
+            errorMessage.style.display = "none"; // Hide any error messages
+            errorMessage.textContent = ""; // Clear error message text
+        });
+
+        // Close modal logic
+        cancelButton.addEventListener("click", (event) => {
+            event.preventDefault(); // Prevent form submission
+            modalContainer.classList.add("invisible"); // Hide the modal
+            errorMessage.style.display = "none"; // Hide any error messages
+            joinField.value = ""; // Clear the input field
+        });
+
+        // Form submission logic
+        joinForm.addEventListener("submit", (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const classCode = joinField.value.trim(); // Get the class code value
+
+            if (!classCode) {
+                errorMessage.textContent = "Please enter a class code.";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // Check for duplicates
+            if (addedClassCodes.includes(classCode)) {
+                errorMessage.textContent = "This class is already added.";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // Simulate server response
+            fetch("checks.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        classCode,
+                    }),
+                })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Server error");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data.success) {
+                        addedClassCodes.push(classCode); // Add class code to the list
+
+                        // Create new course card dynamically
+                        const moduleContainer = document.querySelector(".grid-cols-3");
+                        const newCourseCard = document.createElement("div");
+
+                        newCourseCard.classList.add("flex");
+                        newCourseCard.innerHTML = `
+                        <div class="bg-[#C2B5E8] text-[#424040] w-72 grid grid-col justify-center
+                            rounded-lg shadow-xl p-5 gap-2">
+                            <span class="flex flex-col">
+                                <img src="img/Digital_technology.jpg" alt="" class="rounded-md h-25 w-60 self-center">
+                            </span>
+                            <h1 class="font-bold text-left text-3xl truncate">${data.title}</h1>
+                            <h1>${data.subtitle}</h1>
+                            <div class="flex justify-end">
+                                <a href="courses.php">
+                                    <button class="self-end">
+                                        <span class="w-10 h-10 bg-[#8A70D6] rounded-xl flex justify-center items-center mt-2">
+                                            <img src="icons/Path.svg" alt="">
+                                        </span>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+
+                        moduleContainer.appendChild(newCourseCard); // Append to the module container
+                        modalContainer.classList.add("invisible"); // Close the modal
+                    } else {
+                        // Display server-side error message
+                        errorMessage.textContent = data.message;
+                        errorMessage.style.display = "block";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    errorMessage.textContent = "An unexpected error occurred. Please try again.";
+                    errorMessage.style.display = "block";
+                });
+        });
+    </script>
+
+
+
+</body>
+
+</html>

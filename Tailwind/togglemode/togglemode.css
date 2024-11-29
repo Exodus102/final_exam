@@ -1,0 +1,21 @@
+/* Light mode styles */
+body.light-mode {
+    background-color: white; 
+    color: black;
+}
+
+body.light-mode .btn-neon {
+    background-color: #D4FF00; /* Original light mode color */
+    color: black; /* Original text color */
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212; 
+    color: white; 
+}
+
+body.dark-mode .btn-neon {
+    background-color: #00FFFF; /* Neon blue color */
+    color: black; /* Text color */
+}
