@@ -1,3 +1,43 @@
+<?php
+include '../../services/config/db_connection.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login/login.php");
+    exit;
+}
+
+$student_fname = "Student";
+$student_lname = "Name";
+$student_profile_pic = null;
+
+try {
+    $user_id = $_SESSION['user_id'];
+    $stmt = $conn->prepare("SELECT fname, lname, profile_pic FROM tbl_student WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($row = $result->fetch_assoc()) {
+            $student_fname = $row['fname'] ?? "Student";
+            $student_lname = $row['lname'] ?? "Name";
+            $student_profile_pic = $row['profile_pic']  ? base64_encode($row['profile_pic']) : null;
+        } else {
+            error_log("No result found for user_id: " . $user_id);
+        }
+    } else {
+        error_log("Query execution failed for student's name: " . $stmt->error);
+    }
+} catch (Exception $e) {
+    error_log("Error fetching data: " . $e->getMessage());
+}
+error_log("User ID: " . $user_id);
+error_log("Student First Name: " . $student_fname);
+error_log("Student Last Name: " . $student_lname);
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +45,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="src/output.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap"
+        rel="stylesheet" />
     <title>Learning MS</title>
 </head>
 
@@ -25,22 +69,10 @@
                     <img src="icons/classes.svg" alt="classes" class="w-5 h-5">
                     <span class="text-left">Courses</span>
                 </a>
-                <a href="#" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]">
-                    <img src="icons/notifications.svg" alt="notifications" class="w-5 h-5">
-                    <span class="text-left">Notifications</span>
-                </a>
-                <a href="#" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]">
-                    <img src="icons\archived.svg" alt="archived classes" class="w-5 h-5">
-                    <span class="text-left">Archived Classes</span>
-                </a>
-                <a href="#" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]">
-                    <img src="icons/reports.svg" alt="reports and certificates" class="w-5 h-5">
-                    <span class="text-left">Reports and Certificate</span>
-                </a>
             </div>
 
             <div class="mt-auto mb-5 ">
-                <a href="" class="flex items-center m-2 space-x-5">
+                <a href="settings.php" class="flex items-center m-2 space-x-5">
                     <img src="icons/settings.svg" alt="audit trail" class="w-5 h-5">
                     <span class="text-left">Settings</span>
                 </a>
@@ -56,7 +88,7 @@
                     <h1 class="font-[500] text-2xl text-[#424040] items-center">
                         Welcome!
                     </h1>
-                    <div class="flex bg-[#FFFF] rounded-md justify-evenly border-2">
+                    <div class="flex bg-[#FFFFFF] rounded-md justify-evenly shadow-lg">
                         <button class="flex p-2 items-center" id="add-class">
                             <img src="img/add.png" alt="" class="w-7 h-7">
                             <h1 class="text-xs">
@@ -66,10 +98,8 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-3 gap-4 ml-7" id="module-container">
-
                 </div>
                 <div class="" id="no-module">
-
                 </div>
             </div>
         </div>
@@ -79,15 +109,15 @@
                 Profile
             </h1>
             <div class="w-full h-1/2 bg-[#EFEFEF] flex flex-col items-center shadow-xl rounded-xl">
-                <button class="bg-white rounded-xl w-8 h-8 flex justify-center items-center mb-5 shadow-xl mt-4 ml-auto mr-5">
+                <a class="bg-white rounded-xl w-8 h-8 flex justify-center items-center mb-5 shadow-xl mt-4 ml-auto mr-5" href="settings.php">
                     <img src="icons/edit.svg" alt="" srcset="" class="w-4 h-4">
-                </button>
-                <img src="img/nijika.jpg" alt="" class="w-16 h-16 mb-4 rounded-full">
+                </a>
+                <img src="<?php echo $student_profile_pic ? 'data:image/jpeg;base64,' . htmlspecialchars($student_profile_pic) : 'img/default-profile.jpg'; ?>" alt="" class="w-16 h-16 mb-4 rounded-full">
                 <span>
-                    Reanne C. Mendoza
+                    <?php echo htmlspecialchars($student_fname . " " . $student_lname) ?>
                 </span>
                 <span class="text-sm">
-                    Student
+                    <?php echo "Student" ?>
                 </span>
             </div>
         </div>
@@ -138,7 +168,7 @@
         // Array to track added class codes
         const addedClassCodes = [];
 
-        // Open modal logic
+        // Handle modal opening
         addClassButton.addEventListener("click", () => {
             modalContainer.classList.remove("invisible"); // Make modal visible
             joinField.value = ""; // Clear the input field
@@ -146,7 +176,7 @@
             errorMessage.textContent = ""; // Clear error message text
         });
 
-        // Close modal logic
+        // Handle modal closing
         cancelButton.addEventListener("click", (event) => {
             event.preventDefault(); // Prevent form submission
             modalContainer.classList.add("invisible"); // Hide the modal
@@ -154,11 +184,11 @@
             joinField.value = ""; // Clear the input field
         });
 
-        // Form submission logic
+        // Handle form submission
         joinForm.addEventListener("submit", (event) => {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault(); // Prevent form default submission
 
-            const classCode = joinField.value.trim(); // Get the class code value
+            const classCode = joinField.value.trim(); // Get the entered class code
 
             if (!classCode) {
                 errorMessage.textContent = "Please enter a class code.";
@@ -166,59 +196,55 @@
                 return;
             }
 
-            // Check for duplicates
+            // Check if class has already been added
             if (addedClassCodes.includes(classCode)) {
                 errorMessage.textContent = "This class is already added.";
                 errorMessage.style.display = "block";
                 return;
             }
 
-            // Simulate server response
+            // Send class code to the server for validation and enrollment
             fetch("checks.php", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        classCode,
+                        classCode
                     }),
                 })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error("Server error");
-                    }
-                    return response.json();
-                })
+                .then((response) => response.json())
                 .then((data) => {
                     if (data.success) {
-                        addedClassCodes.push(classCode); // Add class code to the list
+                        addedClassCodes.push(classCode); // Add the class code to the list of added courses
 
-                        // Create new course card dynamically
+                        // Dynamically create the new course card
                         const moduleContainer = document.querySelector(".grid-cols-3");
                         const newCourseCard = document.createElement("div");
 
                         newCourseCard.classList.add("flex");
                         newCourseCard.innerHTML = `
-                        <div class="bg-[#C2B5E8] text-[#424040] w-72 grid grid-col justify-center
-                            rounded-lg shadow-xl p-5 gap-2">
-                            <span class="flex flex-col">
-                                <img src="img/Digital_technology.jpg" alt="" class="rounded-md h-25 w-60 self-center">
-                            </span>
-                            <h1 class="font-bold text-left text-3xl truncate">${data.title}</h1>
-                            <h1>${data.subtitle}</h1>
-                            <div class="flex justify-end">
-                                <a href="courses.php">
-                                    <button class="self-end">
-                                        <span class="w-10 h-10 bg-[#8A70D6] rounded-xl flex justify-center items-center mt-2">
-                                            <img src="icons/Path.svg" alt="">
-                                        </span>
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-                    `;
+                <div class="bg-[#C2B5E8] text-[#424040] w-72 grid grid-col justify-center rounded-lg shadow-xl p-5 gap-2" id="${data.classCode}">
+                    <span class="flex flex-col">
+                        <img src="img/Digital_technology.jpg" alt="Course Image" class="rounded-md h-25 w-60 self-center">
+                    </span>
+                    <div class="flex flex-col w-72 p-4">
+                        <span class="font-bold text-left text-3xl truncate leading-8">${data.subjectName}</span>
+                        <span>${data.professorName}</span>
+                    </div>
+                    <div class="flex justify-end">
+                        <a href="courses.php?classCode=${data.classCode}">
+                            <button class="self-end mr-5">
+                                <span class="w-10 h-10 bg-[#8A70D6] rounded-xl flex justify-center items-center mt-2">
+                                    <img src="icons/Path.svg" alt="Course Link">
+                                </span>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            `;
 
-                        moduleContainer.appendChild(newCourseCard); // Append to the module container
+                        moduleContainer.appendChild(newCourseCard); // Append the new course card
                         modalContainer.classList.add("invisible"); // Close the modal
                     } else {
                         // Display server-side error message
@@ -235,6 +261,51 @@
     </script>
 
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const moduleContainer = document.getElementById("module-container");
+
+            // Fetch enrolled courses from the server
+            fetch("fetch_enrolled_courses.php")
+                .then(response => response.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        data.forEach(course => {
+                            const courseCard = document.createElement("div");
+                            courseCard.classList.add("flex");
+                            courseCard.innerHTML = `
+                        <div class="bg-[#C2B5E8] text-[#424040] w-72 grid grid-col justify-center rounded-lg shadow-xl p-5 gap-2" id="${course.classCode}">
+                            <span class="flex flex-col">
+                                <img src="img/Digital_technology.jpg" alt="Course Image" class="rounded-md h-25 w-60 self-center">
+                            </span>
+                            <div class="flex flex-col w-72 p-4">
+                                <span class="font-bold text-left text-3xl truncate leading-8">${course.subjectName}</span>
+                                <span>${course.professorName}</span>
+                            </div>
+                            <div class="flex justify-end">
+                            
+                                
+                                <a href="courses.php?classCode=${course.classCode}">
+                                    <button class="self-end mr-5">
+                                        <span class="w-10 h-10 bg-[#8A70D6] rounded-xl flex justify-center items-center mt-2">
+                                            <img src="icons/Path.svg" alt="Course Link">
+                                        </span>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                            moduleContainer.appendChild(courseCard);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching courses:", error);
+                });
+        });
+
+    </script>
+    
 
 </body>
 

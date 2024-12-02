@@ -41,13 +41,12 @@ document.getElementById('add-button').addEventListener('click', function() {
 
 
 function generateClassCode() {
-    
     return Math.floor(10000000 + Math.random() * 90000000);  
 }
 
 
 function checkClassCodeUniqueness(classCode, formData) {
-    fetch('http://localhost/Final%20Exam/PHP/services/add-class-prof/check-class-code.php', {
+    fetch('http://localhost/final_exam-main/PHP/services/add-class-prof/check-class-code.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +72,7 @@ function checkClassCodeUniqueness(classCode, formData) {
 
 
 function insertClass(formData) {
-    fetch('http://localhost/Final%20Exam/PHP/services/add-class-prof/add_class_prof.php', {
+    fetch('http://localhost/final_exam-main/PHP/services/add-class-prof/add_class_prof.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

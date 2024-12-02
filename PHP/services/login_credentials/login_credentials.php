@@ -20,7 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['user_id'] = $user['id'];
             }
             if ($user['role'] == 'student') {
-                header("Location: ../../pages/dashboard-stud/dashboard-Finals/frontEnd.php");
+                $_SESSION['user_id'] = $user['id'];
+            }
+            if ($user['role'] == 'student') {
+                header("Location: ../../pages/dashboard-stud/frontEnd.php");
             } elseif ($user['role'] == 'prof') {
                 header("Location: ../../panel-prof/panel_prof.php");
             } else {
