@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
-  content: ["../*.php", "../PHP/pages/login/*.php", "../PHP/pages/register/*.php", "../PHP/pages/dashboard-prof/*.php", "../PHP/panel-prof/*.php", "../PHP/pages/classes-prof/*.php"],
+  content: ["../*.php", "../PHP/pages/login/*.php", "../PHP/pages/register/*.php", "../PHP/pages/dashboard-prof/*.php", "../PHP/panel-prof/*.php", "../PHP/pages/classes-prof/*.php",
+    "../PHP/panel-admin/*.php"
+  ],
   theme: {
     extend: {
       fontFamily: {

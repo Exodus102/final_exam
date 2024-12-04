@@ -33,26 +33,6 @@
                 </button>
             </div>
         </div>
-
-        <div class="relative flex justify-center items-center fade-in flex-grow pt-10 md:pt-0 md:mt-0 ">
-            <div class="image1 relative z-10 rounded-full">
-                <img
-                    src="assets/images/solo.JPG"
-                    alt="Solo Image"
-                    class="w-80 h-80 object-cover rounded-full left-3 hidden lg:block lg:w-60 lg:h-60
-                    xl:w-80 xl:h-80">
-            </div>
-            <img
-                src="assets/images/with_them.JPG"
-                alt="With Them Image"
-                class="image2 sm:w-80 sm:h-80 w-48 h-48 object-cover rounded-full z-0 absolute lg:top-4
-                lg:w-80 lg:h-80 xl:w-80 xl:h-80">
-            <img
-                src="assets/images/sir.jpg"
-                alt="prof"
-                class="image3 w-80 h-80 object-cover rounded-full z-20 absolute bottom-0 md:bottom-4 md:left-7
-                hidden lg:block lg:w-60 lg:h-60 xl:w-80 xl:h-80">
-        </div>
     </div>
 
     <script src="JavaScript/togglemode.js"></script>

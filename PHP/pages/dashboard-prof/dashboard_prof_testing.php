@@ -63,7 +63,7 @@ error_log("Professor Last Name: " . $professor_lname);
                         <img src="../../assets/icons/papers.svg" alt="" srcset="" class="w-20 h-20">
                         <span class="text-5xl font-[500]"><?php echo htmlspecialchars($total_classes); ?></span>
                     </span><br>
-                    <span class="font-[500]">Total Classes</span>
+                    <span class="font-[500]">Total Courses</span>
                     <button id="navigate-to-classes">
                         <span class="w-10 h-10 bg-[#8A70D6] rounded-xl flex justify-center items-center mt-2">
                             <img src="../../assets/icons/Path.svg" alt="" srcset="">
@@ -133,7 +133,7 @@ error_log("Professor Last Name: " . $professor_lname);
                 <?php echo htmlspecialchars($professor_fname . ' ' . $professor_lname); ?>
             </span>
             <span class="text-sm">
-                Professor
+                Instructor
             </span>
         </div>
         <div class="w-full h-1/2 bg-[#EFEFEF] rounded-xl shadow-lg flex flex-col items-center">
