@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = trim($_POST['password']);
 
     if (empty($email) || empty($password)) {
-        header("Location: ../../pages/login/login.php?error=Please%20fill%20in%20both%20email%20and%20password");
+        header("Location: ../../pages/login/loginv2.php?error=Please%20fill%20in%20both%20email%20and%20password");
         exit;
     }
 
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if (!password_verify($password, $user['password'])) {
-                header("Location: ../../pages/login/login.php?error=Incorrect%20password");
+                header("Location: ../../pages/login/loginv2.php?error=Incorrect%20password");
                 exit;
             } else {
                 $_SESSION['user_id'] = $user['id'];
@@ -40,11 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if (!password_verify($password, $user['password'])) {
-                header("Location: ../../pages/login/login.php?error=Incorrect%20password");
+                header("Location: ../../pages/login/loginv2.php?error=Incorrect%20password");
                 exit;
             } else {
                 $_SESSION['user_id'] = $user['id'];
-                header("Location: ../../pages/dashboard-stud/frontEnd.php");
+                header("Location: ../../panel-stud/panel_stud.php");
                 exit;
             }
         }
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if (!password_verify($password, $user['password'])) {
-                header("Location: ../../pages/login/login.php?error=Incorrect%20password");
+                header("Location: ../../pages/login/loginv2.php?error=Incorrect%20password");
                 exit;
             } else {
                 $_SESSION['user_id'] = $user['id'];
@@ -68,11 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // If no user is found in any table
-        header("Location: ../../pages/login/login.php?error=No%20user%20found%20with%20that%20username");
+        header("Location: ../../pages/login/loginv2.php?error=No%20user%20found%20with%20that%20username");
         exit;
     } catch (Exception $e) {
         error_log($e->getMessage(), 3, 'error_log.txt');
-        header("Location: ../../pages/login/login.php?error=An%20error%20occurred.%20Please%20try%20again.");
+        header("Location: ../../pages/login/loginv2.php?error=An%20error%20occurred.%20Please%20try%20again.");
         exit;
     }
 }

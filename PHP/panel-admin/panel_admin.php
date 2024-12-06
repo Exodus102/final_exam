@@ -15,7 +15,7 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../Tailwind/css/tailwind.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <title>Admin</title>
 </head>
 
 <body>
@@ -40,6 +40,11 @@ if (!isset($_SESSION['user_id'])) {
                     <img src="../../assets/icons/classes.svg" alt="classes" class="w-5 h-5">
                     <span class="text-left invisible lg:visible">Add Courses</span>
                 </a>
+                <a href="panel_admin.php?page=deploy_prof" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]
+                <?php echo (isset($_GET['page']) && $_GET['page'] === 'deploy_prof') ? 'bg-[#E9E3FF]' : ''; ?>">
+                    <img src="../../assets/icons/classes.svg" alt="classes" class="w-5 h-5">
+                    <span class="text-left invisible lg:visible">Deploy</span>
+                </a>
             </div>
 
             <div class="mt-auto mb-5">
@@ -57,6 +62,7 @@ if (!isset($_SESSION['user_id'])) {
             $allowedpages = [
                 'add_account_admin' => "../pages/add-account-admin/add_account_admin.php",
                 'add_courses_admin' => "../pages/add-courses-admin/add_courses_admin.php",
+                'deploy_prof' => "../pages/add-prof-to-course/add_prof_to_course.php",
                 'settings_prof' => "../pages/settings/settings_prof.php"
             ];
             if (array_key_exists($page, $allowedpages)) {

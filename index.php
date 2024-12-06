@@ -18,7 +18,7 @@
             <h1 class="font-semibold text-[70px] mb-0 dark:text-white text-center lg:text-start">Module System</h1>
             <p class="text-lg mb-6 leading-6 sm:leading-3 dark:text-white text-center sm:text-start">A website for online education to pursue one's dream.</p>
             <div class="flex space-x-4">
-                <a href="PHP/pages/login/login.php">
+                <a href="PHP/pages/login/loginv2.php">
                     <button id="get-started" class="btn-neon bg-light-yellow text-black font-light py-2 px-4 
                         rounded transition duration-300 shadow-md hover:shadow-lg hover:outline-none dark:bg-neon-blue dark:text-black
                         ">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2024 at 03:53 PM
+-- Generation Time: Dec 06, 2024 at 06:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -116,6 +116,52 @@ INSERT INTO `class_prof` (`class_id`, `subject_name`, `subject_code`, `section`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `course_content`
+--
+
+CREATE TABLE `course_content` (
+  `id` int(11) NOT NULL,
+  `instructor_course_id` int(11) NOT NULL,
+  `course_name` varchar(255) NOT NULL,
+  `prof_id` int(11) NOT NULL,
+  `contents` varchar(255) NOT NULL,
+  `files` longblob NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `file_type` varchar(255) NOT NULL,
+  `file_size` int(11) NOT NULL,
+  `lesson` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instructor_courses`
+--
+
+CREATE TABLE `instructor_courses` (
+  `id` int(11) NOT NULL,
+  `course_id` int(11) NOT NULL,
+  `course_name` varchar(255) NOT NULL,
+  `prof_id` int(11) NOT NULL,
+  `prof_fname` varchar(255) NOT NULL,
+  `prof_lname` varchar(255) NOT NULL,
+  `prof_email` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `instructor_courses`
+--
+
+INSERT INTO `instructor_courses` (`id`, `course_id`, `course_name`, `prof_id`, `prof_fname`, `prof_lname`, `prof_email`) VALUES
+(1, 3, 'Web Development', 1, 'Lol', 'Pol', 'asdasdasdas@gmail.com'),
+(2, 3, 'Web Development', 1, 'Lol', 'Pol', 'asdasdasdas@gmail.com'),
+(3, 3, 'Web Development', 12, 'Jenrick', 'Aran', 'testing12@gmail.com'),
+(4, 6, 'Data Management', 12, 'Jenrick', 'Aran', 'testing12@gmail.com'),
+(5, 8, 'Machine Learning', 12, 'Jenrick', 'Aran', 'testing12@gmail.com');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_admin`
 --
 
@@ -150,7 +196,10 @@ CREATE TABLE `tbl_courses` (
 INSERT INTO `tbl_courses` (`id`, `course`) VALUES
 (3, 'Web Development'),
 (4, 'Information Management'),
-(5, 'Capstone');
+(5, 'Capstone'),
+(6, 'Data Management'),
+(7, 'Mobile Application'),
+(8, 'Machine Learning');
 
 -- --------------------------------------------------------
 
@@ -299,6 +348,18 @@ ALTER TABLE `class_prof`
   ADD PRIMARY KEY (`class_id`);
 
 --
+-- Indexes for table `course_content`
+--
+ALTER TABLE `course_content`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `instructor_courses`
+--
+ALTER TABLE `instructor_courses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
@@ -355,6 +416,18 @@ ALTER TABLE `class_prof`
   MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
+-- AUTO_INCREMENT for table `course_content`
+--
+ALTER TABLE `course_content`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `instructor_courses`
+--
+ALTER TABLE `instructor_courses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
@@ -364,7 +437,7 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_courses`
 --
 ALTER TABLE `tbl_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_enrolled_students`

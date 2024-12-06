@@ -53,17 +53,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $conn->close();
 ?>
 
-<div class="flex flex-col justify-center p-5 h-screen font-poppins gap-3">
+<div class="flex flex-col justify-center p-5 h-screen font-poppins gap-3 items-center">
     <div>
-        <h1 class="text-5xl font-[500]">Add Instructor</h1>
+        <h1 class="text-3xl">Add Instructor</h1>
     </div>
-    <div class="w-full">
+    <div class="w-1/2">
         <form action="" method="POST" class="flex flex-col gap-5" id="addInstructorForm">
             <input type="text" name="fname" placeholder="First Name" class="p-3 rounded-lg focus:outline-none shadow-lg" required>
             <input type="text" name="lname" placeholder="Last Name" class="p-3 rounded-lg focus:outline-none shadow-lg" required>
             <input type="email" name="email" placeholder="Email" class="p-3 rounded-lg focus:outline-none shadow-lg" required>
             <input type="password" name="password" id="password" placeholder="Password" class="p-3 rounded-lg focus:outline-none shadow-lg" required>
-            <button type="submit" class="p-3 rounded-lg shadow-lg bg-violet-500 hover:bg-violet-600">Submit</button>
+            <button type="submit" class="text-white p-3 rounded-lg shadow-lg bg-violet-500 hover:bg-violet-600">Submit</button>
         </form>
     </div>
     <?php if ($validationMessage): ?>
