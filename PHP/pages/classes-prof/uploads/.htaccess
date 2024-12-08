@@ -1,0 +1,16 @@
+# Allow access to PDF files in the uploads directory
+<Files "*.pdf">
+    Require all granted
+</Files>
+
+# Allow access to media files (video) like mp4, mkv, avi, etc.
+<FilesMatch "\.(mp4|mkv|avi|mov|webm|flv|ogv)$">
+    Require all granted
+</FilesMatch>
+
+# Allow CORS (Cross-Origin Resource Sharing) for video files
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, X-Requested-With"
+</IfModule>

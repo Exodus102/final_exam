@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to access this page.";
-    header("Location: ../PHP/login/login.php");
+    header("Location: ../pages/login/loginv2.php");
     exit;
 }
 ?>
@@ -56,19 +56,18 @@ if (!isset($_SESSION['user_id'])) {
             $allowedpages = [
                 'dashboard_prof_testing' => "../pages/dashboard-prof/dashboard_prof_testing.php",
                 'classes_prof' => "../pages/classes-prof/classes_prof.php",
-                'settings_prof' => "../pages/settings/settings_prof.php"
+                'settings_prof' => "settings_prof.php"
             ];
             if (array_key_exists($page, $allowedpages)) {
-                include $allowedpages[$page];
+                include $allowedpages[$page]; // Include the correct page
             } else {
-                echo "<h1 class='text-2xl font-bold'>Page Not Found</h1>";
+                include "settings_prof.php"; // Default to settings page
             }
             ?>
         </div>
-    </div>
 
-    <script src="../../JavaScript/class-prof/class_prof.js"></script>
-    <script src="../../JavaScript/dashboard-prof/dashboard-prof.js"></script>
+        <script src="../../JavaScript/class-prof/class_prof.js"></script>
+        <script src="../../JavaScript/dashboard-prof/dashboard-prof.js"></script>
 </body>
 
 </html>

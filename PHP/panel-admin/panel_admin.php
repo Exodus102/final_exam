@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to access this page.";
@@ -18,7 +19,7 @@ if (!isset($_SESSION['user_id'])) {
     <title>Admin</title>
 </head>
 
-<body>
+<body class="font-poppins">
     <div class="flex h-screen p-5">
         <div class="flex flex-col w-1/5 border-[3px] border-[#E9E3FF] rounded-xl shadow-xl
             pl-5 pr-5">
@@ -30,6 +31,16 @@ if (!isset($_SESSION['user_id'])) {
             </div>
 
             <div class="flex flex-col text-[#424040]">
+                <a href="panel_admin.php?page=student-users" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 active:bg-[#E9E3FF] focus:bg-[#E9E3FF]
+                <?php echo (isset($_GET['page']) && $_GET['page'] === 'student-users') ? 'bg-[#E9E3FF]' : ''; ?>">
+                    <img src="../../assets/icons/dashboard.svg" alt="dashboard" class="w-5 h-5">
+                    <span class="text-left invisible lg:visible">Student Dasboard</span>
+                </a>
+                <a href="panel_admin.php?page=prof-users" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 active:bg-[#E9E3FF] focus:bg-[#E9E3FF]
+                <?php echo (isset($_GET['page']) && $_GET['page'] === 'prof-users') ? 'bg-[#E9E3FF]' : ''; ?>">
+                    <img src="../../assets/icons/dashboard.svg" alt="dashboard" class="w-5 h-5">
+                    <span class="text-left invisible lg:visible">Professor Dasboard</span>
+                </a>
                 <a href="panel_admin.php?page=add_account_admin" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 active:bg-[#E9E3FF] focus:bg-[#E9E3FF]
                 <?php echo (isset($_GET['page']) && $_GET['page'] === 'add_account_admin') ? 'bg-[#E9E3FF]' : ''; ?>">
                     <img src="../../assets/icons/dashboard.svg" alt="dashboard" class="w-5 h-5">
@@ -42,16 +53,16 @@ if (!isset($_SESSION['user_id'])) {
                 </a>
                 <a href="panel_admin.php?page=deploy_prof" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]
                 <?php echo (isset($_GET['page']) && $_GET['page'] === 'deploy_prof') ? 'bg-[#E9E3FF]' : ''; ?>">
-                    <img src="../../assets/icons/classes.svg" alt="classes" class="w-5 h-5">
+                    <img src="../../assets/icons/deploy.svg" alt="classes" class="w-5 h-5">
                     <span class="text-left invisible lg:visible">Deploy</span>
                 </a>
             </div>
 
             <div class="mt-auto mb-5">
-                <a href="panel_admin.php?page=settings_prof" id="settings-link" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]
-                <?php echo (isset($_GET['page']) && $_GET['page'] === 'settings_prof') ? 'bg-[#E9E3FF]' : ''; ?>">
-                    <img src="../../assets/icons/settings.svg" alt="audit trail" class="w-5 h-5">
-                    <span class="text-left invisible lg:visible">Settings</span>
+                <a href="../../PHP/services/logout/logout.php" id="settings-link" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]
+                <?php echo (isset($_GET['page']) && $_GET['page'] === 'settings_admin') ? 'bg-[#E9E3FF]' : ''; ?>">
+                    <img src="../../assets/icons/logout.svg" alt="audit trail" class="w-5 h-5">
+                    <span class="text-left invisible lg:visible">Logout</span>
                 </a>
             </div>
         </div>
@@ -63,7 +74,8 @@ if (!isset($_SESSION['user_id'])) {
                 'add_account_admin' => "../pages/add-account-admin/add_account_admin.php",
                 'add_courses_admin' => "../pages/add-courses-admin/add_courses_admin.php",
                 'deploy_prof' => "../pages/add-prof-to-course/add_prof_to_course.php",
-                'settings_prof' => "../pages/settings/settings_prof.php"
+                'student-users' => "../pages/all-users/student-users.php",
+                'prof-users' => "../pages/all-users/prof-users.php",
             ];
             if (array_key_exists($page, $allowedpages)) {
                 include $allowedpages[$page];
@@ -73,6 +85,7 @@ if (!isset($_SESSION['user_id'])) {
             ?>
         </div>
     </div>
+    <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>

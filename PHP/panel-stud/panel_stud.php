@@ -29,7 +29,7 @@
                 <a href="panel_stud.php?page=classes_stud" class="flex items-center m-2 space-x-5 p-1 rounded-lg hover:bg-gray-100 focus:bg-[#E9E3FF]
                 <?php echo (isset($_GET['page']) && $_GET['page'] === 'classes_stud') ? 'bg-[#E9E3FF]' : ''; ?>">
                     <img src="../../assets/icons/classes.svg" alt="classes" class="w-5 h-5">
-                    <span class="text-left invisible lg:visible">Classes</span>
+                    <span class="text-left invisible lg:visible">Assessment</span>
                 </a>
             </div>
 
@@ -47,8 +47,8 @@
             $page = isset($_GET['page']) ? $_GET['page'] : 'home_panel_stud';
             $allowedpages = [
                 'home_panel_stud' => "../pages/home-stud/home_stud.php",
-                'classes_stud' => "../pages/classes-stud/classes_stud.php",
-                'settings_stud' => "../pages/settings/settings_stud.php"
+                'classes_stud' => "../pages/classes-stud/classesv2.php",
+                'settings_stud' => "settings_stud.php"
             ];
             if (array_key_exists($page, $allowedpages)) {
                 include $allowedpages[$page];

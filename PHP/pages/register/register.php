@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // If the sign-up is successful, wait for 3 seconds and then redirect to login page
         <?php if (!empty($successMessage)) : ?>
             setTimeout(function() {
-                window.location.href = '../login/login.php';
+                window.location.href = '../login/loginv2.php';
             }, 3000); // 3000 ms = 3 seconds delay
         <?php endif; ?>
     </script>

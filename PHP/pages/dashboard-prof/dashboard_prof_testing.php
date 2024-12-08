@@ -113,23 +113,7 @@ error_log("Number of Courses: " . $num_courses);
                     </button>
                 </div>
             </div>
-            <div class="flex flex-col">
-                <span class="w-full h-28 bg-[#E9E3FF] rounded-lg mt-5 shadow-[0_4px_6px_rgba(0,0,0,0.2)] p-5">
-                    <span class="font-[500]">
-                        Recent Activities
-                    </span>
-                </span>
-                <span class="w-full h-28 bg-[#E9E3FF] rounded-lg mt-4 shadow-[0_4px_6px_rgba(0,0,0,0.2)] p-5">
-                    <span class="font-[500]">
-                        Upcoming Events
-                    </span>
-                </span>
-                <span class="w-full h-28 bg-[#E9E3FF] rounded-lg mt-4 shadow-[0_4px_6px_rgba(0,0,0,0.2)] p-5">
-                    <span class="font-[500]">
-                        Class Performance Overview
-                    </span>
-                </span>
-            </div>
+
         </div>
     </div>
 
@@ -141,7 +125,7 @@ error_log("Number of Courses: " . $num_courses);
             <button class="bg-white rounded-xl w-8 h-8 flex justify-center items-center mb-5 shadow-xl mt-4 ml-auto mr-5">
                 <img src="../../assets/icons/edit.svg" alt="" srcset="" class="w-4 h-4">
             </button>
-            <img src="../../assets/images/icon.png" alt="" class="w-16 h-16 mb-4">
+            <img src="../../assets/images/no-dp.jpg" alt="" class="w-20 h-20 mb-4 rounded-full">
             <span class="font-poppins font-bold">
                 <?php echo htmlspecialchars($professor_fname . ' ' . $professor_lname); ?>
             </span>

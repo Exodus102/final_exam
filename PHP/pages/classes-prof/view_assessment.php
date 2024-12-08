@@ -24,7 +24,7 @@ $questions = [];
 
 if ($lesson) {
     // Fetch assessment description
-    $query = "SELECT course_name, assessment_desc FROM quiz_courses WHERE lesson = ?";
+    $query = "SELECT course_name FROM quiz_courses WHERE lesson = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $lesson);
     $stmt->execute();
@@ -66,7 +66,6 @@ if ($lesson) {
             <h1 class="text-3xl font-bold">Assessment for <?php echo htmlspecialchars($lesson); ?></h1>
             <?php if ($assessmentDetails): ?>
                 <p class="text-lg text-gray-700">Course: <?php echo htmlspecialchars($assessmentDetails['course_name']); ?></p>
-                <p class="text-lg text-gray-700">Description: <?php echo htmlspecialchars($assessmentDetails['assessment_desc']); ?></p>
             <?php else: ?>
                 <p class="text-lg text-red-600">No assessment details available.</p>
             <?php endif; ?>
