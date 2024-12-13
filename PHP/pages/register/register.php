@@ -72,53 +72,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../Tailwind/css/tailwind.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Register</title>
-    <style>
-        #submitBtn:disabled {
-            cursor: not-allowed;
-            /* Changes the cursor to 'not-allowed' */
-        }
-    </style>
+    <title>Sign Up</title>
 </head>
 
 <body class="font-poppins">
-    <div class="lg:h-screen flex flex-col-reverse lg:flex-row p-5 gap-4">
-        <div class="w-full lg:w-2/3 flex flex-col justify-center items-start">
-            <h1 class="font-semibold text-5xl lg:text-7xl mb-5">
-                Register
-            </h1>
-            <form method="post" class="w-full">
-                <input type="text" name="fname" placeholder="First Name" class="w-full p-3 bg-gray-300 rounded placeholder-gray-500 mb-5" value="<?php echo isset($fname) ? htmlspecialchars($fname) : ''; ?>"><br>
-                <input type="text" name="lname" placeholder="Last Name" class="w-full p-3 bg-gray-300 rounded placeholder-gray-500 mb-5" value="<?php echo isset($lname) ? htmlspecialchars($lname) : ''; ?>"><br>
-                <input type="text" name="email" placeholder="email" class="w-full p-3 bg-gray-300 rounded placeholder-gray-500" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>"><br>
-                <input type="password" name="password" placeholder="password" class="mt-5 w-full p-3 mb-5 bg-gray-300 rounded placeholder-gray-500"><br>
-                <div class="w-full flex justify-center items-center bg-[#D4FF00] rounded-lg p-3">
-                    <button type="submit" id="submitBtn" class="w-full" <?php echo !empty($successMessage) ? 'disabled' : ''; ?>>
-                        Sign Up
-                    </button>
+    <div class="flex flex-col h-screen w-screen bg-[#F3F3F3] p-5 sm:flex-row">
+        <div class="flex flex-col w-full sm:w-2/5">
+            <div class="flex w-full justify-between items-center mb-5">
+                <div class="flex justify-center items-center">
+                    <img src="../../../assets/logo/logoq.svg" alt="Logo">
+                    <span class="text-3xl text-[#424040] font-medium ml-4">LMS</span>
                 </div>
+                <a href="../login/loginv2.php" class="text-[#424040]">Sign In</a>
+            </div>
+
+            <div class="flex flex-col h-full justify-center items-center p-5">
+                <span class="font-extrabold text-4xl text-[#424040] mb-3">
+                    SIGN UP
+                </span>
+                <span class="text-sm text-[#424040] mb-5">
+                    Register your LMS account now.
+                </span>
+
+                <form method="post" class="w-full flex flex-col gap-3">
+                    <input type="text" name="fname" placeholder="First Name" class="p-4 bg-white rounded" value="<?php echo isset($fname) ? htmlspecialchars($fname) : ''; ?>">
+                    <input type="text" name="lname" placeholder="Last Name" class="p-4 bg-white rounded" value="<?php echo isset($lname) ? htmlspecialchars($lname) : ''; ?>">
+                    <input type="text" name="email" placeholder="Email" class="p-4 bg-white rounded" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>">
+                    <input type="password" name="password" placeholder="Password" class="p-4 bg-white rounded">
+                    <label for="password" class="text-slate-600 text-sm">Password should be<br>• Longer than 8 characters<br>• Contain a combination of lower and uppercases<br>• Contain special characters
+                        
+
+                    </label>
+                    <button type="submit" class="text-sm bg-[#424040] text-[#FBFBFB] w-full rounded p-4">
+                        Register
+                    </button>
+                </form>
+
                 <?php if (!empty($errorMessage)) : ?>
-                    <p class="text-red-500 mt-3 text-center"><?php echo htmlspecialchars($errorMessage); ?></p>
+                    <p class="text-red-500 mt-3"><?php echo htmlspecialchars($errorMessage); ?></p>
                 <?php elseif (!empty($successMessage)) : ?>
-                    <p class="text-green-500 mt-3 text-center"><?php echo htmlspecialchars($successMessage); ?></p>
+                    <p class="text-green-500 mt-3"><?php echo htmlspecialchars($successMessage); ?></p>
                 <?php endif; ?>
-            </form>
+            </div>
         </div>
-        <div class="w-full lg:w-2/3 bg-[#D4FF00] flex justify-center lg:justify-end items-center rounded p-5">
-            <h1 class="text-3xl lg:text-7xl font-semibold lg:text-right md:text-6xl">
-                Register to start<br> the unstoppable <br>learning.
-            </h1>
+
+        <div>
+            <img src="../../../assets/images/LMS.png" alt="LMS" class="w-full h-full">
         </div>
     </div>
-
-    <script>
-        // If the sign-up is successful, wait for 3 seconds and then redirect to login page
-        <?php if (!empty($successMessage)) : ?>
-            setTimeout(function() {
-                window.location.href = '../login/loginv2.php';
-            }, 3000); // 3000 ms = 3 seconds delay
-        <?php endif; ?>
-    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </body>
 
 </html>

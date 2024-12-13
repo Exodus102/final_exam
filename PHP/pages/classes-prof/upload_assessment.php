@@ -10,85 +10,80 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Include the database connection
 include 'C:/xampp/htdocs/final_exam-main/PHP/services/config/db_connection.php';
 
-$message = ''; // To store the message to display
+// Check database connection
+if (!$conn) {
+    die('<div class="bg-red-500 text-white p-4 rounded-md text-center">
+             <strong>Error:</strong> Database connection failed.
+         </div>');
+}
 
-// Check if the form is submitted
+$message = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $courseName = $_POST['course'] ?? '';
-    $lesson = $_POST['lesson'] ?? '';
+    $courseName = trim($_POST['course'] ?? '');
+    $lesson = trim($_POST['lesson'] ?? '');
     $questions = $_POST['questions'] ?? [];
     $answers = $_POST['answers'] ?? [];
     $profId = $_SESSION['user_id'];
 
-    if (empty($courseName) || empty($lesson) || empty($questions) || empty($answers)) {
-        $message = '<div class="bg-red-500 text-white p-4 rounded-md shadow-md text-center">
-                        <strong>Error:</strong> All fields are required.
+    // Input validation
+    if (empty($courseName) || empty($lesson) || empty($questions) || empty($answers) || count($questions) !== count($answers)) {
+        $message = '<div class="bg-red-500 text-white p-4 rounded-md text-center">
+                        <strong>Error:</strong> All fields are required, and each question must have an answer.
                     </div>';
     } else {
-        $query = "SELECT id AS instructor_courses_id, course_name FROM instructor_courses WHERE course_name = ? LIMIT 1";
+        // Fetch the course ID
+        $query = "SELECT id FROM instructor_courses WHERE course_name = ? AND prof_id = ? LIMIT 1";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("s", $courseName);
+        $stmt->bind_param("si", $courseName, $profId);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows === 0) {
-            $message = '<div class="bg-red-500 text-white p-4 rounded-md shadow-md text-center">
-                            <strong>Error:</strong> Invalid course name.
+            $message = '<div class="bg-red-500 text-white p-4 rounded-md text-center">
+                            <strong>Error:</strong> Invalid course name or unauthorized access.
                         </div>';
         } else {
             $courseData = $result->fetch_assoc();
-            $instructorCoursesId = $courseData['instructor_courses_id'];
+            $instructorCoursesId = $courseData['id'];
 
-            // Insert the main quiz course information once
-            $query = "INSERT INTO quiz_courses (instructor_course_id, course_name, prof_id, lesson)
-                      VALUES (?, ?, ?, ?)";
+            // Insert questions and answers
+            $query = "INSERT INTO quiz_courses (instructor_course_id, course_name, prof_id, lesson, questions, answers)
+                      VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($query);
-            $stmt->bind_param("isss", $instructorCoursesId, $courseName, $profId, $lesson);
 
-            if (!$stmt->execute()) {
-                $message = '<div class="bg-red-500 text-white p-4 rounded-md shadow-md text-center">
-                                <strong>Error:</strong> Failed to upload assessment.
+            $errors = [];
+            foreach ($questions as $index => $question) {
+                $question = trim($question);
+                $answer = trim($answers[$index]);
+
+                if (empty($question) || empty($answer)) {
+                    $errors[] = "Question or answer cannot be empty.";
+                    continue;
+                }
+
+                $stmt->bind_param("isssss", $instructorCoursesId, $courseName, $profId, $lesson, $question, $answer);
+                if (!$stmt->execute()) {
+                    $errors[] = "Failed to upload question: " . htmlspecialchars($question);
+                }
+            }
+
+            if (empty($errors)) {
+                $message = '<div class="bg-green-500 text-white p-4 rounded-md text-center">
+                                <strong>Success:</strong> Assessment uploaded successfully!
                             </div>';
             } else {
-                // Get the inserted quiz_course_id
-                $quizCourseId = $stmt->insert_id;
-                $stmt->close();
-
-                // Now, insert each question and answer into separate rows in the same quiz_courses table
-                $query = "INSERT INTO quiz_courses (instructor_course_id, course_name, prof_id, lesson, questions, answers)
-                          VALUES (?, ?, ?, ?, ?, ?)";
-                $stmt = $conn->prepare($query);
-
-                foreach ($questions as $index => $question) {
-                    $answer = isset($answers[$index]) ? $answers[$index] : '';
-                    $stmt->bind_param("isssss", $instructorCoursesId, $courseName, $profId, $lesson, $question, $answer);
-                    if (!$stmt->execute()) {
-                        $message = '<div class="bg-red-500 text-white p-4 rounded-md shadow-md text-center">
-                                        <strong>Error:</strong> Failed to upload question and answer.
-                                    </div>';
-                        break;
-                    }
-                }
-
-                // If all goes well, show success message
-                if (!$message) {
-                    $message = '<div class="bg-green-500 text-white p-4 rounded-md shadow-md text-center">
-                                    <strong>Success:</strong> Assessment uploaded successfully!
-                                </div>';
-                }
+                $message = '<div class="bg-red-500 text-white p-4 rounded-md text-center">
+                                <strong>Error:</strong><br>' . implode('<br>', $errors) . '
+                            </div>';
             }
         }
     }
-    $stmt->close();
-    $conn->close();
-} else {
-    $message = '<div class="bg-yellow-500 text-white p-4 rounded-md shadow-md text-center">
-                    <strong>Warning:</strong> Invalid request method.
-                </div>';
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -97,19 +92,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Upload</title>
+    <title>Upload Assessment</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="font-poppins">
-    <div class="flex justify-center items-center h-screen p-5">
-        <div class="w-full sm:w-8/12 p-3">
-            <div class="flex flex-col gap-5">
-                <!-- Display the message here -->
-                <?php echo $message; ?>
-            </div>
+<body class="bg-gray-100 font-poppins">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="bg-white w-full sm:w-3/4 lg:w-1/2 p-8 rounded-lg shadow-md">
+            <h1 class="text-2xl font-semibold text-center text-indigo-600 mb-6">Upload Assessment</h1>
+
+            <?php echo $message; ?>
+
+            <form method="POST" class="space-y-4">
+                <div>
+                    <label for="course" class="block text-gray-700">Course Name</label>
+                    <input type="text" name="course" id="course" class="w-full p-3 border rounded-lg" required>
+                </div>
+
+                <div>
+                    <label for="lesson" class="block text-gray-700">Lesson</label>
+                    <input type="text" name="lesson" id="lesson" class="w-full p-3 border rounded-lg" required>
+                </div>
+
+                <div id="questions-container">
+                    <div class="question-answer-pair space-y-2">
+                        <label for="question-1" class="block text-gray-700">Question</label>
+                        <input type="text" name="questions[]" id="question-1" class="w-full p-3 border rounded-lg" required>
+
+                        <label for="answer-1" class="block text-gray-700">Answer</label>
+                        <input type="text" name="answers[]" id="answer-1" class="w-full p-3 border rounded-lg" required>
+                    </div>
+                </div>
+
+                <button type="button" id="add-question" class="block bg-blue-500 text-white px-4 py-2 rounded-lg mt-3">
+                    Add Another Question
+                </button>
+
+                <button type="submit" class="w-full bg-green-600 text-white px-4 py-2 rounded-lg">
+                    Upload Assessment
+                </button>
+            </form>
         </div>
     </div>
+
+    <script>
+        const questionsContainer = document.getElementById('questions-container');
+        const addQuestionButton = document.getElementById('add-question');
+
+        addQuestionButton.addEventListener('click', () => {
+            const questionNumber = questionsContainer.children.length + 1;
+            const questionAnswerPair = `
+                <div class="question-answer-pair space-y-2">
+                    <label for="question-${questionNumber}" class="block text-gray-700">Question</label>
+                    <input type="text" name="questions[]" id="question-${questionNumber}" class="w-full p-3 border rounded-lg" required>
+
+                    <label for="answer-${questionNumber}" class="block text-gray-700">Answer</label>
+                    <input type="text" name="answers[]" id="answer-${questionNumber}" class="w-full p-3 border rounded-lg" required>
+
+                    <button type="button" onclick="this.parentElement.remove()" class="bg-red-500 text-white px-4 py-2 rounded-lg mt-3">
+                        Remove Question
+                    </button>
+                </div>
+            `;
+            questionsContainer.insertAdjacentHTML('beforeend', questionAnswerPair);
+        });
+    </script>
 </body>
 
 </html>

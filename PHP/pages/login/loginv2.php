@@ -17,7 +17,7 @@
             <div class="flex w-full justify-between items-center">
                 <div class="flex justify-center items-center">
                     <img src="../../../assets/logo/logoq.svg" alt="">
-                    <span class="text-3xl text-[#424040] font-[500]">LMS</span>
+                    <span class="text-3xl text-[#424040] font-[500] ml-4">LMS</span>
                 </div>
                 <a href="../register/register.php">Create an Account</a>
             </div>
@@ -42,8 +42,9 @@
                 <?php endif; ?>
             </div>
         </div>
+
         <div class="">
-            <!--reanne lagay mo dito picture plsssss yung maayos-->
+            <img src="../../../assets/images/LMS.png" alt="LMS" class="w-full h-full">
         </div>
     </div>
 </body>

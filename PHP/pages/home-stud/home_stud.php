@@ -94,19 +94,20 @@ $conn->close();
     </div>
 
     <script>
-        document.querySelectorAll('.navigate-to-classes').forEach(button => {
-            button.addEventListener('click', function() {
-                // Get the course name from the button's data attribute
-                var courseName = this.getAttribute('data-course-name');
+    document.querySelectorAll('.navigate-to-classes').forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the course name from the button's data attribute
+            var courseName = this.getAttribute('data-course-name');
 
-                // Log the course name to check if it is being correctly passed
-                console.log(courseName);
+            // Log the course name to check if it is being correctly passed
+            console.log(courseName);
 
-                // Redirect to classes.php and pass the course name via query string
-                window.location.href = "../../PHP/pages/classes-stud/classes_stud.php?course=" + encodeURIComponent(courseName);
-            });
+            // Redirect to panel_stud.php with page parameter and course name
+            window.location.href = "panel_stud.php?page=classes_stud&course=" + encodeURIComponent(courseName);
         });
-    </script>
+    });
+</script>
+
 
     <script src="https://cdn.tailwindcss.com"></script>
 
